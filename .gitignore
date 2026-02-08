@@ -1,0 +1,66 @@
+# ==============================================================================
+# .gitignore - Laboratorium Python & Dasar AI
+# Universitas Muhammadiyah Makassar
+# ==============================================================================
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# ── Virtual Environment ──────────────────────────────────────────────────────
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# ── Distribution / Packaging ─────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+*.egg
+*.whl
+
+# ── IDE / Editor ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ── Jupyter Notebook ─────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Linter / Formatter Cache ─────────────────────────────────────────────────
+.ruff_cache/
+.mypy_cache/
+.pytype/
+
+# ── Testing ──────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── OS Generated ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Environment Variables ────────────────────────────────────────────────────
+.env
+.env.local
+*.env
+
+# ── Data / Output (jangan commit file besar) ─────────────────────────────────
+*.csv
+*.xlsx
+*.json
+!requirements.txt
+*.pkl
+*.joblib
+*.h5
