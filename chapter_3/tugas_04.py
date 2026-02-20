@@ -22,75 +22,68 @@
 
 import random
 
+# Fungsi menghasilkan angka acak
+def generate_angka():
+    return random.randint(1, 100)
 
-def generate_angka(batas_bawah=1, batas_atas=100):
-    """Generate angka acak dalam rentang tertentu.
+# Fungsi Versi Iteratif (While Loop)
+def main_game():
+    target = generate_angka()
+    percobaan = 0
+    maks_percobaan = 10
+    
+    print("=== PERMAINAN TEBAK ANGKA (ITERATIF) ===")
+    print("Saya sudah memikirkan angka antara 1-100.")
+    print(f"Kamu punya {maks_percobaan} kesempatan!")
 
-    Args:
-        batas_bawah (int): Batas bawah (default 1).
-        batas_atas (int): Batas atas (default 100).
+    # While Loop untuk meminta input
+    while percobaan < maks_percobaan:
+        percobaan += 1
+        try:
+            tebakan = int(input(f"\nPercobaan ke-{percobaan}: Masukkan tebakanmu: "))
+        except ValueError:
+            print("Masukkan angka yang valid!")
+            percobaan -= 1 # Tidak menghitung percobaan jika input salah
+            continue
 
-    Returns:
-        int: Angka acak.
-    """
-    # TODO: Implementasikan
-    # Hint: return random.randint(batas_bawah, batas_atas)
-    ...
+    # Memberikan petunjuk
+        if tebakan < target:
+            print("Terlalu kecil!")
+        elif tebakan > target:
+            print("Terlalu besar!")
+        else:
+    # Menampilkan hasil dan Break
+            print(f"SELAMAT! Kamu berhasil menebak angka {target} dalam {percobaan} percobaan.")
+            break
+    
+    # Penanganan Game Over
+    else:
+        print("\n=== GAME OVER ===")
+        print(f"Maaf, kamu gagal. Angka yang benar adalah {target}.")
 
-
-def main_tebak_angka():
-    """Permainan tebak angka dengan while loop.
-
-    - Batas percobaan: 10 kali
-    - Berikan petunjuk di setiap tebakan salah
-    - Gunakan break saat tebakan benar
-    """
-    # TODO: Implementasikan permainan tebak angka
-    # target = generate_angka()
-    # maks_percobaan = 10
-    #
-    # print("=== PERMAINAN TEBAK ANGKA ===")
-    # print(f"Tebak angka antara 1 sampai 100 (maksimal {maks_percobaan} percobaan)")
-    #
-    # for percobaan in range(1, maks_percobaan + 1):
-    #     tebakan = int(input(f"Percobaan {percobaan}: "))
-    #
-    #     if tebakan == target:
-    #         print(f"BENAR! Angkanya adalah {target}")
-    #         print(f"Anda berhasil dalam {percobaan} percobaan!")
-    #         break
-    #     elif tebakan > target:
-    #         print("Terlalu besar!")
-    #     else:
-    #         print("Terlalu kecil!")
-    # else:
-    #     print(f"\nGame Over! Angka yang benar adalah {target}")
-    ...
-
-
+# Fungsi Rekursif sebagai alternatif
 def tebak_rekursif(target, percobaan=1, maks=10):
-    """Versi rekursif dari permainan tebak angka.
+    if percobaan > maks:
+        print(f"\n[Rekursif] Game Over! Jawabannya adalah {target}")
+        return
+    
+    try:
+        tebakan = int(input(f"[Rekursif] Percobaan {percobaan}: "))
+    except ValueError:
+        return tebak_rekursif(target, percobaan, maks)
 
-    Args:
-        target (int): Angka yang harus ditebak.
-        percobaan (int): Nomor percobaan saat ini.
-        maks (int): Batas maksimal percobaan.
-    """
-    # TODO: Implementasikan versi rekursif
-    # Base case 1: percobaan > maks -> Game Over
-    # Base case 2: tebakan == target -> Berhasil!
-    # Recursive case: panggil tebak_rekursif(target, percobaan+1, maks)
-    ...
+    if tebakan == target:
+        print(f"Benar! Kamu menang di percobaan ke-{percobaan}")
+    elif tebakan < target:
+        print("Terlalu kecil!")
+        tebak_rekursif(target, percobaan + 1, maks)
+    else:
+        print("Terlalu besar!")
+        tebak_rekursif(target, percobaan + 1, maks)
 
-
-# ── Main Program ─────────────────────────────────────────────────────────────
+# Jalankan Program
 if __name__ == "__main__":
-    # TODO: Jalankan permainan
-    # print("=== VERSI ITERATIF (while loop) ===")
-    # main_tebak_angka()
-    #
-    # print("\n=== VERSI REKURSIF ===")
-    # target = generate_angka()
-    # tebak_rekursif(target)
-
-    pass
+    main_game()
+    # Jika ingin mencoba versi rekursif, hapus tanda pagar di bawah:
+    # print("\n\n--- Beralih ke Versi Rekursif ---")
+    # tebak_rekursif(random.randint(1,100))
