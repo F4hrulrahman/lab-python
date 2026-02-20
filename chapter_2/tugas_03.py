@@ -1,62 +1,44 @@
-"""
-==========================================================
- TUGAS 3 - Analisis Teks dengan Set
- Chapter 2: Struktur Data
- Laboratorium Python & Dasar AI
- Universitas Muhammadiyah Makassar
-==========================================================
 
- Instruksi:
- 1. Definisikan 2 string kalimat (minimal 10 kata per kalimat)
- 2. Konversi setiap kalimat menjadi set kata unik (lowercase)
- 3. Tampilkan intersection (kata di kedua kalimat)
- 4. Tampilkan difference (kata hanya di kalimat 1 / kalimat 2)
- 5. Tampilkan union (semua kata unik)
- 6. Tampilkan symmetric difference (kata di salah satu saja)
- 7. Hitung jumlah kata unik total
-==========================================================
-"""
+#==========================================================
+ #TUGAS 3 - Analisis Teks dengan Set
+ #Chapter 2: Struktur Data
+ #Laboratorium Python & Dasar AI
+ #Universitas Muhammadiyah Makassar
+#==========================================================
 
-# ── Data Kalimat ─────────────────────────────────────────────────────────────
-# TODO: Definisikan 2 kalimat (minimal 10 kata per kalimat)
-kalimat_1 = "..."  # Ganti dengan kalimat Anda
-kalimat_2 = "..."  # Ganti dengan kalimat Anda
+# Definisikan 2 buah string kalimat
+kalimat1 = "belajar pemrograman python sangat menyenangkan dan bermanfaat untuk masa depan mahasiswa"
+kalimat2 = "mahasiswa informatika harus belajar logika pemrograman agar mahir membuat aplikasi bermanfaat"
 
+# Konversi ke set berisi kata-kata unik (lowercase)
+# .lower() untuk mengecilkan huruf, .split() untuk memecah kalimat menjadi list kata
+set1 = set(kalimat1.lower().split())
+set2 = set(kalimat2.lower().split())
 
-# ── Konversi ke Set ──────────────────────────────────────────────────────────
-# TODO: Konversi kalimat menjadi set kata unik (lowercase)
-# Hint: set(kalimat.lower().split())
-kata_set_1 = ...
-kata_set_2 = ...
+print("Kalimat 1:", kalimat1)
+print("Kalimat 2:", kalimat2)
+print("-" * 30)
 
+# Kata yang muncul di kedua kalimat (Intersection)
+irisan = set1.intersection(set2)
+print(f"Kata di kedua kalimat (Intersection): \n{irisan}")
 
-# ── Intersection (kata yang muncul di KEDUA kalimat) ─────────────────────────
-# TODO: kata_set_1 & kata_set_2  ATAU  kata_set_1.intersection(kata_set_2)
-kata_sama = ...
+# Kata yang hanya ada di kalimat pertama (Difference)
+hanya_set1 = set1.difference(set2)
+print(f"\nKata hanya di kalimat pertama: \n{hanya_set1}")
 
+# Kata yang hanya ada di kalimat kedua (Difference)
+hanya_set2 = set2.difference(set1)
+print(f"\nKata hanya di kalimat kedua: \n{hanya_set2}")
 
-# ── Difference (kata HANYA di kalimat 1) ─────────────────────────────────────
-# TODO: kata_set_1 - kata_set_2  ATAU  kata_set_1.difference(kata_set_2)
-hanya_kalimat_1 = ...
+# Semua kata unik dari kedua kalimat (Union)
+gabungan = set1.union(set2)
+print(f"\nSemua kata unik (Union): \n{gabungan}")
 
+# Kata yang hanya ada di salah satu kalimat (Symmetric Difference)
+simetris_diff = set1.symmetric_difference(set2)
+print(f"\nKata di salah satu kalimat saja (Symmetric Difference): \n{simetris_diff}")
 
-# ── Difference (kata HANYA di kalimat 2) ─────────────────────────────────────
-# TODO: kata_set_2 - kata_set_1
-hanya_kalimat_2 = ...
-
-
-# ── Union (SEMUA kata unik dari kedua kalimat) ──────────────────────────────
-# TODO: kata_set_1 | kata_set_2  ATAU  kata_set_1.union(kata_set_2)
-semua_kata = ...
-
-
-# ── Symmetric Difference (kata di SALAH SATU saja) ──────────────────────────
-# TODO: kata_set_1 ^ kata_set_2  ATAU  kata_set_1.symmetric_difference(kata_set_2)
-kata_unik_masing = ...
-
-
-# ── Tampilkan Hasil ──────────────────────────────────────────────────────────
-# TODO: Tampilkan semua hasil operasi set dengan format rapi
-# print(f"Kata di kedua kalimat (intersection): {kata_sama}")
-# print(f"Jumlah kata unik total: {len(semua_kata)}")
-# ...
+# Hitung jumlah kata unik total
+print("-" * 30)
+print(f"Jumlah kata unik total: {len(gabungan)}")
