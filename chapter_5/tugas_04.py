@@ -34,198 +34,79 @@
 import pandas as pd
 import numpy as np
 
+# Menentukan seed agar hasil tetap konsisten
+np.random.seed(42)
 
-# ── Konfigurasi Produk ───────────────────────────────────────────────────────
-PRODUK_INFO = {
-    "Laptop": {"kategori": "Elektronik", "harga": 12_000_000},
-    "Mouse": {"kategori": "Elektronik", "harga": 150_000},
-    "Buku Tulis": {"kategori": "ATK", "harga": 15_000},
-    "Pulpen": {"kategori": "ATK", "harga": 8_000},
-    "Flash Drive": {"kategori": "Elektronik", "harga": 85_000},
+# 1. Inisialisasi Data Produk dan Kategori
+produk_data = {
+    'Laptop': {'Kategori': 'Elektronik', 'Harga': 15000000},
+    'Mouse': {'Kategori': 'Aksesoris', 'Harga': 250000},
+    'Monitor': {'Kategori': 'Elektronik', 'Harga': 2500000},
+    'Keyboard': {'Kategori': 'Aksesoris', 'Harga': 500000},
+    'Printer': {'Kategori': 'Elektronik', 'Harga': 1200000}
 }
 
+# 2. Buat DataFrame simulasi data penjualan (30 hari)
+n_hari = 30
+tanggal = pd.date_range(start='2026-01-01', periods=n_hari)
 
-def buat_data_penjualan(seed=42, jumlah_hari=30):
-    """Membuat DataFrame data penjualan harian.
+# Generate data random
+produk_names = list(produk_data.keys())
+selected_produk = np.random.choice(produk_names, n_hari)
+quantities = np.random.randint(1, 51, n_hari)
 
-    Args:
-        seed (int): Random seed untuk reprodusibilitas.
-        jumlah_hari (int): Jumlah hari data.
+# Ambil Harga dan Kategori berdasarkan produk yang terpilih
+prices = [produk_data[p]['Harga'] for p in selected_produk]
+categories = [produk_data[p]['Kategori'] for p in selected_produk]
 
-    Returns:
-        pd.DataFrame: DataFrame dengan kolom Tanggal, Produk,
-                       Kategori, Quantity, Harga_Satuan, Total.
-    """
-    # TODO: Set seed
-    # np.random.seed(seed)
-    #
-    # TODO: Buat tanggal dengan pd.date_range
-    # tanggal = pd.date_range(start="2025-01-01", periods=jumlah_hari, freq="D")
-    #
-    # TODO: Pilih produk acak untuk setiap hari
-    # produk_list = list(PRODUK_INFO.keys())
-    # produk = np.random.choice(produk_list, jumlah_hari)
-    #
-    # TODO: Ambil kategori dan harga berdasarkan produk
-    # kategori = [PRODUK_INFO[p]["kategori"] for p in produk]
-    # harga = [PRODUK_INFO[p]["harga"] for p in produk]
-    #
-    # TODO: Buat quantity acak (1-50)
-    # quantity = np.random.randint(1, 51, jumlah_hari)
-    #
-    # TODO: Buat DataFrame
-    # df = pd.DataFrame({
-    #     "Tanggal": tanggal,
-    #     "Produk": produk,
-    #     "Kategori": kategori,
-    #     "Quantity": quantity,
-    #     "Harga_Satuan": harga,
-    # })
-    #
-    # TODO: Tambah kolom Total
-    # df["Total"] = df["Quantity"] * df["Harga_Satuan"]
-    #
-    # return df
-    ...
+df = pd.DataFrame({
+    'Tanggal': tanggal,
+    'Produk': selected_produk,
+    'Kategori': categories,
+    'Quantity': quantities,
+    'Harga_Satuan': prices
+})
 
+# 3. Tambahkan kolom Total
+df['Total'] = df['Quantity'] * df['Harga_Satuan']
 
-def analisis_keseluruhan(df):
-    """Menghitung metrik analisis keseluruhan.
+# 4. Analisis Data
+total_keseluruhan = df['Total'].sum()
+rata_harian = df['Total'].mean()
 
-    Args:
-        df (pd.DataFrame): DataFrame penjualan.
+# Produk & Kategori tertinggi
+produk_stats = df.groupby('Produk')['Total'].sum()
+top_produk = produk_stats.idxmax()
+top_produk_val = produk_stats.max()
 
-    Returns:
-        dict: Dictionary berisi total_penjualan, rata_per_hari,
-              produk_terlaris, kategori_terlaris,
-              hari_terbaik (tanggal, total), hari_terburuk (tanggal, total).
-    """
-    # TODO: Hitung total keseluruhan
-    # total = df["Total"].sum()
-    #
-    # TODO: Rata-rata per hari
-    # rata_harian = df.groupby("Tanggal")["Total"].sum().mean()
-    #
-    # TODO: Produk terlaris (total penjualan tertinggi)
-    # penjualan_produk = df.groupby("Produk")["Total"].sum()
-    # produk_terlaris = penjualan_produk.idxmax()
-    #
-    # TODO: Kategori terlaris
-    # penjualan_kategori = df.groupby("Kategori")["Total"].sum()
-    # kategori_terlaris = penjualan_kategori.idxmax()
-    #
-    # TODO: Hari terbaik dan terburuk
-    # penjualan_harian = df.groupby("Tanggal")["Total"].sum()
-    # hari_terbaik = (penjualan_harian.idxmax(), penjualan_harian.max())
-    # hari_terburuk = (penjualan_harian.idxmin(), penjualan_harian.min())
-    #
-    # return {
-    #     "total_penjualan": total,
-    #     "rata_per_hari": rata_harian,
-    #     "produk_terlaris": produk_terlaris,
-    #     "kategori_terlaris": kategori_terlaris,
-    #     "hari_terbaik": hari_terbaik,
-    #     "hari_terburuk": hari_terburuk,
-    # }
-    ...
+kat_stats = df.groupby('Kategori')['Total'].sum()
+top_kat = kat_stats.idxmax()
 
+# Hari tertinggi & terendah
+hari_tertinggi = df.loc[df['Total'].idxmax()]
+hari_terendah = df.loc[df['Total'].idxmin()]
 
-def ringkasan_per_produk(df):
-    """Membuat ringkasan penjualan per produk menggunakan groupby + agg.
+# 5. Ringkasan menggunakan groupby + agg
+ringkasan = df.groupby('Produk').agg(
+    Qty_Total=('Quantity', 'sum'),
+    Total_Penjualan=('Total', 'sum'),
+    Rata_Rata=('Total', 'mean')
+).sort_values(by='Total_Penjualan', ascending=False)
 
-    Args:
-        df (pd.DataFrame): DataFrame penjualan.
+# --- OUTPUT LAPORAN ---
+print("===== LAPORAN ANALISIS PENJUALAN =====")
+print(f"Periode: {tanggal.min().date()} s/d {tanggal.max().date()}\n")
 
-    Returns:
-        pd.DataFrame: Ringkasan berisi sum, mean, count per produk.
-    """
-    # TODO: Implementasikan groupby + agg
-    # return df.groupby("Produk").agg(
-    #     Total_Penjualan=("Total", "sum"),
-    #     Rata_Rata=("Total", "mean"),
-    #     Jumlah_Transaksi=("Total", "count"),
-    #     Total_Quantity=("Quantity", "sum"),
-    # ).sort_values("Total_Penjualan", ascending=False)
-    ...
+print("--- Ringkasan per Produk ---")
+print(f"{'Produk':<12} | {'Qty Total':<9} | {'Total Penjualan':<16} | {'Rata-Rata'}")
+print("-" * 60)
+for produk, row in ringkasan.iterrows():
+    print(f"{produk:<12} | {int(row['Qty_Total']):<9} | Rp{int(row['Total_Penjualan']):>14,d} | Rp{row['Rata_Rata']:>12,.0f}")
 
-
-def ringkasan_per_kategori(df):
-    """Membuat ringkasan penjualan per kategori.
-
-    Args:
-        df (pd.DataFrame): DataFrame penjualan.
-
-    Returns:
-        pd.DataFrame: Ringkasan per kategori.
-    """
-    # TODO: Implementasikan groupby per kategori
-    # return df.groupby("Kategori").agg(
-    #     Total_Penjualan=("Total", "sum"),
-    #     Rata_Rata=("Total", "mean"),
-    #     Jumlah_Transaksi=("Total", "count"),
-    # )
-    ...
-
-
-def format_rupiah(angka):
-    """Format angka ke format Rupiah.
-
-    Args:
-        angka (int/float): Angka yang akan diformat.
-
-    Returns:
-        str: String format Rupiah, misal "Rp 1.500.000"
-    """
-    # TODO: Implementasikan
-    # return f"Rp {angka:,.0f}".replace(",", ".")
-    ...
-
-
-def tampilkan_hasil(df, analisis, per_produk, per_kategori):
-    """Menampilkan semua hasil analisis dalam format rapi.
-
-    Args:
-        df (pd.DataFrame): DataFrame penjualan.
-        analisis (dict): Hasil analisis_keseluruhan().
-        per_produk (pd.DataFrame): Hasil ringkasan_per_produk().
-        per_kategori (pd.DataFrame): Hasil ringkasan_per_kategori().
-    """
-    # TODO: Tampilkan output terstruktur
-    #
-    # print("=" * 60)
-    # print(" ANALISIS DATA PENJUALAN")
-    # print("=" * 60)
-    #
-    # print(f"\n── Data Penjualan (5 baris pertama) ──")
-    # print(df.head())
-    #
-    # print(f"\n── Ringkasan Keseluruhan ──")
-    # print(f"  Total Penjualan   : {format_rupiah(analisis['total_penjualan'])}")
-    # print(f"  Rata-rata/Hari    : {format_rupiah(analisis['rata_per_hari'])}")
-    # print(f"  Produk Terlaris   : {analisis['produk_terlaris']}")
-    # print(f"  Kategori Terlaris : {analisis['kategori_terlaris']}")
-    #
-    # tgl_best, total_best = analisis["hari_terbaik"]
-    # tgl_worst, total_worst = analisis["hari_terburuk"]
-    # print(f"  Hari Terbaik      : {tgl_best.strftime('%d %b %Y')} ({format_rupiah(total_best)})")
-    # print(f"  Hari Terburuk     : {tgl_worst.strftime('%d %b %Y')} ({format_rupiah(total_worst)})")
-    #
-    # print(f"\n── Ringkasan per Produk ──")
-    # print(per_produk)
-    #
-    # print(f"\n── Ringkasan per Kategori ──")
-    # print(per_kategori)
-    ...
-
-
-# ── Main Program ─────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    # TODO: Jalankan semua fungsi dan tampilkan hasilnya
-    #
-    # df = buat_data_penjualan()
-    # analisis = analisis_keseluruhan(df)
-    # per_produk = ringkasan_per_produk(df)
-    # per_kategori = ringkasan_per_kategori(df)
-    # tampilkan_hasil(df, analisis, per_produk, per_kategori)
-
-    pass
+print("\n--- Grand Total ---")
+print(f"Total Penjualan  : Rp{total_keseluruhan:,d}")
+print(f"Rata-rata/hari   : Rp{rata_harian:,.0f}")
+print(f"Produk Terlaris  : {top_produk} (Rp{top_produk_val:,d})")
+print(f"Kategori Utama   : {top_kat}")
+print(f"Hari Tertinggi   : {hari_tertinggi['Tanggal'].date()} (Rp{hari_tertinggi['Total']:,d})")
+print(f"Hari Terendah    : {hari_terendah['Tanggal'].date()} (Rp{hari_terendah['Total']:,d})")
