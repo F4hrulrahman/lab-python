@@ -1,47 +1,33 @@
-"""
-==========================================================
- TUGAS 2 - Kalkulator Konversi Suhu
- Chapter 1: Dasar Python
- Laboratorium Python & Dasar AI
- Universitas Muhammadiyah Makassar
-==========================================================
 
- Instruksi:
- 1. Definisikan variabel celsius dengan nilai tertentu
- 2. Hitung konversi ke Fahrenheit: F = (C x 9/5) + 32
- 3. Hitung konversi ke Reamur:     R = C x 4/5
- 4. Hitung konversi ke Kelvin:     K = C + 273.15
- 5. Tampilkan semua hasil konversi dengan 2 angka desimal
- 6. Uji dengan minimal 3 nilai celsius berbeda
-==========================================================
-"""
+# TUGAS 2 - Kalkulator Konversi Suhu (tugas_02.py)
+# Chapter 1: Dasar Python
+# Laboratorium Python & Dasar AI
+# Universitas Muhammadiyah Makassar
 
-# ── Rumus Konversi ────────────────────────────────────────────────────────────
-# Fahrenheit = (Celsius * 9/5) + 32
-# Reamur     = Celsius * 4/5
-# Kelvin     = Celsius + 273.15
+# Daftar nilai Celsius yang akan diuji (minimal 3 nilai)
+daftar_celsius = [25, 37.5, 100]
 
+print("======= KALKULATOR KONVERSI SUHU =======")
 
-def konversi_suhu(celsius):
-    """Konversi suhu dari Celsius ke Fahrenheit, Reamur, dan Kelvin.
+# Looping untuk menguji setiap nilai Celsius dalam daftar
+for celsius in daftar_celsius:
+    # 1. Hitung Konversi ke Fahrenheit
+    # Rumus: F = (C * 9/5) + 32
+    fahrenheit = (celsius * 9/5) + 32
 
-    Args:
-        celsius (float): Suhu dalam Celsius.
+    # 2. Hitung Konversi ke Reamur
+    # Rumus: R = C * 4/5
+    reamur = celsius * 4/5
 
-    Returns:
-        tuple: (fahrenheit, reamur, kelvin)
-    """
-    # TODO: Hitung konversi suhu
-    fahrenheit = ...
-    reamur = ...
-    kelvin = ...
-    return fahrenheit, reamur, kelvin
+    # 3. Hitung Konversi ke Kelvin
+    # Rumus: K = C + 273.15
+    kelvin = celsius + 273.15
 
+    # 4. Tampilkan Hasil dengan 2 angka desimal menggunakan :.2f
+    print(f"Input Celsius : {celsius}°C")
+    print(f"-> Fahrenheit : {fahrenheit:.2f}°F")
+    print(f"-> Reamur     : {reamur:.2f}°R")
+    print(f"-> Kelvin     : {kelvin:.2f} K")
+    print("-" * 40)
 
-# ── Tampilkan Hasil Konversi ─────────────────────────────────────────────────
-# TODO: Uji fungsi dengan minimal 3 nilai celsius berbeda
-# Contoh:
-#   nilai_celsius = [0, 100, 37.5]
-#   for c in nilai_celsius:
-#       f, r, k = konversi_suhu(c)
-#       print(f"{c:.2f}°C = {f:.2f}°F = {r:.2f}°R = {k:.2f}K")
+print("Proses Konversi Selesai.")
