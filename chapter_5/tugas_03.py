@@ -28,176 +28,59 @@
 import pandas as pd
 import numpy as np
 
+# Menentukan seed agar hasil tetap konsisten
+np.random.seed(42)
 
-def buat_data_dengan_missing():
-    """Membuat DataFrame dengan data yang memiliki missing values.
+# 1. Buat DataFrame dengan sengaja memiliki missing value (NaN)
+data = {
+    'Nama': ['Safriamsah', 'Budi', 'Citra', 'Dina', 'Eko', 'Fajri', 'Gita', 'Hadi', 'Indra', 'Joko', 'Kiki', 'Lulu'],
+    'Usia': [22, 21, np.nan, 23, 22, np.nan, 24, 21, 22, np.nan, 23, 25],
+    'IPK': [3.41, 3.2, 3.8, np.nan, 3.5, 3.0, np.nan, 3.9, 3.1, np.nan, 3.6, 2.9],
+    'Jurusan': ['Informatika', 'Informatika', 'Sistem Informasi', np.nan, 'Teknik Elektro', 'Informatika', np.nan, 'Sistem Informasi', 'Informatika', 'Informatika', np.nan, 'Teknik Elektro']
+}
 
-    Buat data realistis (misal: survei mahasiswa) dengan 10-15 baris
-    dan minimal 3 kolom. Sisipkan np.nan di beberapa posisi.
+df = pd.DataFrame(data)
 
-    Returns:
-        pd.DataFrame: DataFrame dengan missing values.
-    """
-    # TODO: Buat DataFrame dengan NaN di beberapa sel
-    # Contoh skenario: data survei mahasiswa
-    #
-    # data = {
-    #     "Nama": ["Ahmad", "Budi", "Citra", "Dewi", "Eko",
-    #              "Fitri", "Gilang", "Hana", "Irfan", "Jasmine",
-    #              "Kamal", "Lina"],
-    #     "Usia": [20, 21, np.nan, 22, 20, np.nan, 23, 21, 20, np.nan, 22, 21],
-    #     "IPK": [3.5, np.nan, 3.2, 3.8, np.nan, 3.1, 3.6, np.nan, 3.4, 3.7, np.nan, 3.3],
-    #     "Jurusan": ["Informatika", "SI", np.nan, "Informatika", "Elektro",
-    #                 "SI", np.nan, "Informatika", "Elektro", np.nan,
-    #                 "SI", "Informatika"],
-    #     "Skor_Survei": [85, 90, 78, np.nan, 88, 92, np.nan, 75, np.nan, 80, 95, np.nan],
-    # }
-    #
-    # return pd.DataFrame(data)
-    ...
+print("===== DATAFRAME ASLI (DENGAN NaN) =====")
+print(df)
 
+# 2. Tampilkan jumlah NaN per kolom
+print("\n--- Jumlah NaN per Kolom ---")
+print(df.isnull().sum())
 
-def deteksi_missing(df):
-    """Mendeteksi dan menampilkan informasi missing values.
+# 3. Tampilkan persentase data hilang
+print("\n--- Persentase Data Hilang (%) ---")
+print((df.isnull().sum() / len(df)) * 100)
 
-    Args:
-        df (pd.DataFrame): DataFrame yang mungkin memiliki NaN.
+# 4. PENANGANAN DATA HILANG
 
-    Returns:
-        tuple: (jumlah_missing_per_kolom, persen_missing_per_kolom)
-    """
-    # TODO: Hitung jumlah NaN per kolom
-    # jumlah = df.isnull().sum()
-    #
-    # TODO: Hitung persentase NaN per kolom
-    # persen = (df.isnull().sum() / len(df)) * 100
-    #
-    # return jumlah, persen
-    ...
+# Versi 1: dropna() -- Hapus baris yang memiliki NaN
+df_v1 = df.dropna()
 
+# Versi 2: fillna() dengan mean (numerik) dan modus (kategorikal)
+df_v2 = df.copy()
+df_v2['Usia'] = df_v2['Usia'].fillna(df_v2['Usia'].mean())
+df_v2['IPK'] = df_v2['IPK'].fillna(df_v2['IPK'].mean())
+# Modus mengembalikan Series, ambil indeks ke-0
+df_v2['Jurusan'] = df_v2['Jurusan'].fillna(df_v2['Jurusan'].mode()[0])
 
-def versi_dropna(df):
-    """Versi 1: Menghapus baris yang mengandung NaN.
+# Versi 3: fillna() dengan method ffill (forward fill)
+df_v3 = df.fillna(method='ffill')
 
-    Args:
-        df (pd.DataFrame): DataFrame asli.
+# 5. Bandingkan jumlah baris
+print("\n--- Perbandingan Jumlah Baris ---")
+print(f"Data Asli : {len(df)}")
+print(f"Versi 1 (dropna)  : {len(df_v1)}")
+print(f"Versi 2 (fillna)  : {len(df_v2)}")
+print(f"Versi 3 (ffill)   : {len(df_v3)}")
 
-    Returns:
-        pd.DataFrame: DataFrame tanpa baris yang memiliki NaN.
-    """
-    # TODO: Implementasikan dropna()
-    # return df.dropna()
-    ...
-
-
-def versi_fillna_statistik(df):
-    """Versi 2: Mengisi NaN — numerik dengan mean, kategorikal dengan mode.
-
-    Args:
-        df (pd.DataFrame): DataFrame asli.
-
-    Returns:
-        pd.DataFrame: DataFrame dengan NaN terisi.
-    """
-    # TODO: Buat copy DataFrame agar tidak mengubah aslinya
-    # df_filled = df.copy()
-    #
-    # TODO: Untuk setiap kolom numerik, isi NaN dengan mean
-    # for col in df_filled.select_dtypes(include=["number"]).columns:
-    #     df_filled[col] = df_filled[col].fillna(df_filled[col].mean())
-    #
-    # TODO: Untuk setiap kolom kategorikal/object, isi NaN dengan mode
-    # for col in df_filled.select_dtypes(include=["object"]).columns:
-    #     df_filled[col] = df_filled[col].fillna(df_filled[col].mode()[0])
-    #
-    # return df_filled
-    ...
-
-
-def versi_fillna_ffill(df):
-    """Versi 3: Mengisi NaN dengan forward fill (nilai sebelumnya).
-
-    Args:
-        df (pd.DataFrame): DataFrame asli.
-
-    Returns:
-        pd.DataFrame: DataFrame dengan NaN terisi (ffill).
-    """
-    # TODO: Implementasikan ffill
-    # return df.ffill()
-    ...
-
-
-def bandingkan_hasil(df_asli, df_dropna, df_fillna_stat, df_fillna_ffill):
-    """Membandingkan jumlah baris dan sisa NaN dari ketiga versi.
-
-    Args:
-        df_asli (pd.DataFrame): DataFrame asli.
-        df_dropna (pd.DataFrame): Hasil dropna.
-        df_fillna_stat (pd.DataFrame): Hasil fillna statistik.
-        df_fillna_ffill (pd.DataFrame): Hasil fillna ffill.
-    """
-    # TODO: Tampilkan perbandingan
-    # print(f"{'Metode':<25} | {'Baris':>5} | {'NaN Tersisa':>11}")
-    # print("-" * 48)
-    # print(f"{'Data Asli':<25} | {len(df_asli):>5} | {df_asli.isnull().sum().sum():>11}")
-    # print(f"{'dropna()':<25} | {len(df_dropna):>5} | {df_dropna.isnull().sum().sum():>11}")
-    # print(f"{'fillna (mean/mode)':<25} | {len(df_fillna_stat):>5} | {df_fillna_stat.isnull().sum().sum():>11}")
-    # print(f"{'fillna (ffill)':<25} | {len(df_fillna_ffill):>5} | {df_fillna_ffill.isnull().sum().sum():>11}")
-    ...
-
-
-# ── Kapan Menggunakan Metode Mana? ──────────────────────────────────────────
-#
-# TODO: Lengkapi penjelasan di bawah berdasarkan pemahaman Anda
-#
-# dropna():
-#   - Gunakan ketika: ...
-#   - Risiko: ...
-#   - Contoh kasus: ...
-#
-# fillna(mean/mode):
-#   - Gunakan ketika: ...
-#   - Risiko: ...
-#   - Contoh kasus: ...
-#
-# fillna(ffill):
-#   - Gunakan ketika: ...
-#   - Risiko: ...
-#   - Contoh kasus: ...
-
-
-# ── Main Program ─────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    # TODO: Jalankan semua fungsi dan tampilkan hasilnya
-    #
-    # df = buat_data_dengan_missing()
-    #
-    # print("=" * 55)
-    # print(" HANDLING MISSING DATA")
-    # print("=" * 55)
-    #
-    # print("\n── Data Asli ──")
-    # print(df)
-    #
-    # print("\n── Deteksi Missing Values ──")
-    # jumlah, persen = deteksi_missing(df)
-    # print(f"Jumlah NaN per kolom:\n{jumlah}")
-    # print(f"\nPersentase NaN per kolom:\n{persen.round(1)}")
-    #
-    # print("\n── Versi 1: dropna() ──")
-    # df_v1 = versi_dropna(df)
-    # print(df_v1)
-    #
-    # print("\n── Versi 2: fillna (mean/mode) ──")
-    # df_v2 = versi_fillna_statistik(df)
-    # print(df_v2)
-    #
-    # print("\n── Versi 3: fillna (ffill) ──")
-    # df_v3 = versi_fillna_ffill(df)
-    # print(df_v3)
-    #
-    # print("\n── Perbandingan Hasil ──")
-    # bandingkan_hasil(df, df_v1, df_v2, df_v3)
-
-    pass
+"""
+PENJELASAN METODE:
+1. dropna(): Gunakan jika jumlah baris yang hilang sangat sedikit (misal < 5%) 
+   dan data yang tersisa masih cukup banyak untuk dianalisis.
+2. fillna(mean/modus): Gunakan jika ingin mempertahankan jumlah data. 
+   Mean cocok untuk data numerik yang distribusinya normal, 
+   sedangkan modus untuk data kategori/string.
+3. ffill: Gunakan untuk data yang memiliki urutan waktu (Time Series), 
+   di mana nilai sekarang kemungkinan besar mirip dengan nilai sebelumnya.
+"""
