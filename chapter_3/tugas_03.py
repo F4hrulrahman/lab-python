@@ -18,77 +18,72 @@
 """
 
 
+# Tugas 3 -- Kalkulator Serbaguna (tugas_03.py)
+
+# Fungsi Kalkulator dengan Default Parameter
 def kalkulator(a, b, operasi="+"):
-    """Kalkulator dasar dengan default parameter.
+    if operasi == "+":
+        return a + b
+    elif operasi == "-":
+        return a - b
+    elif operasi == "*":
+        return a * b
+    elif operasi == "/":
+# Tangani pembagian dengan nol
+        return "Error: Pembagian nol" if b == 0 else a / b
+    elif operasi == "//":
+        return "Error: Pembagian nol" if b == 0 else a // b
+    elif operasi == "%":
+        return a % b
+    elif operasi == "**":
+        return a ** b
+    else:
+        return "Operasi tidak dikenal"
 
-    Args:
-        a (float): Bilangan pertama.
-        b (float): Bilangan kedua.
-        operasi (str): Operator (+, -, *, /, //, %, **). Default: "+".
-
-    Returns:
-        float: Hasil perhitungan, atau None jika operasi tidak valid.
-    """
-    # TODO: Implementasikan kalkulator
-    # Jangan lupa tangani pembagian dengan nol!
-    ...
-
-
+# Fungsi Statistik menggunakan *args
 def statistik(*args):
-    """Menghitung statistik dari sekumpulan angka.
+    if not args:
+        return None
+    # Hitung manual tanpa library
+    total = sum(args)
+    count = len(args)
+    return {
+        "min": min(args),
+        "max": max(args),
+        "sum": total,
+        "mean": total / count,
+        "count": count
+    }
 
-    Args:
-        *args: Bilangan-bilangan yang akan dihitung statistiknya.
-
-    Returns:
-        dict: {"min": ..., "max": ..., "sum": ..., "mean": ..., "count": ...}
-    """
-    # TODO: Implementasikan menggunakan *args
-    # Hint: args adalah tuple, bisa pakai min(), max(), sum(), len()
-    ...
-
-
+# Fungsi Format Output menggunakan **kwargs
 def format_output(**kwargs):
-    """Mencetak data dalam format key: value yang rapi.
+    print("\n--- FORMATTED DATA ---")
+    for key, value in kwargs.items():
+        print(f"{key.capitalize():<10}: {value}")
 
-    Args:
-        **kwargs: Pasangan key-value yang akan dicetak.
-    """
-    # TODO: Implementasikan menggunakan **kwargs
-    # Contoh:
-    # for key, value in kwargs.items():
-    #     print(f"  {key:<15}: {value}")
-    ...
+# --- DEMONSTRASI ---
 
+# Kalkulator
+print("===== KALKULATOR =====")
+print(f"8 + 2  = {kalkulator(8, 2)}") # Menggunakan default +
+print(f"8 ** 2 = {kalkulator(8, 2, '**')}")
+print(f"5 / 0  = {kalkulator(5, 0, '/')}")
 
-# ── Demonstrasi ──────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    # TODO: Demonstrasi kalkulator
-    # print("=== Kalkulator ===")
-    # print(f"10 + 3 = {kalkulator(10, 3, '+')}")
-    # print(f"10 / 0 = {kalkulator(10, 0, '/')}")  # tangani error
+# Statistik
+hasil_stat = statistik(10, 20, 30, 40, 50)
+format_output(judul="Hasil Statistik", **hasil_stat)
 
-    # TODO: Demonstrasi statistik(*args)
-    # print("\n=== Statistik ===")
-    # hasil = statistik(85, 90, 78, 92, 65, 88, 73)
-    # print(hasil)
+# Lambda dengan map() (Kuadrat)
+angka = [1, 2, 3, 4, 5]
+kuadrat = list(map(lambda x: x**2, angka))
+print(f"\nKuadrat {angka} : {kuadrat}")
 
-    # TODO: Demonstrasi format_output(**kwargs)
-    # print("\n=== Format Output ===")
-    # format_output(nama="Ahmad", nim="105841100123", jurusan="Informatika")
+# Lambda dengan filter() (Genap)
+genap = list(filter(lambda x: x % 2 == 0, angka))
+print(f"Bilangan Genap  : {genap}")
 
-    # TODO: Lambda + map() -> hitung kuadrat dari list
-    # angka = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    # kuadrat = list(map(lambda x: x ** 2, angka))
-    # print(f"\nKuadrat: {kuadrat}")
-
-    # TODO: Lambda + filter() -> saring bilangan genap
-    # genap = list(filter(lambda x: x % 2 == 0, angka))
-    # print(f"Genap  : {genap}")
-
-    # TODO: Lambda + sorted() -> urutkan list of tuple
-    # mahasiswa = [("Ahmad", 85), ("Siti", 92), ("Budi", 78), ("Dewi", 90)]
-    # by_nilai = sorted(mahasiswa, key=lambda x: x[1], reverse=True)
-    # print(f"\nUrut by nilai: {by_nilai}")
-
-    pass
+# Lambda dengan sorted() (Urutkan Tuple berdasarkan Nilai)
+data_mhs = [("Nurul", 85), ("Habibah", 92), ("Ciko", 78)]
+# Mengurutkan berdasarkan elemen kedua (nilai) secara descending
+urut_nilai = sorted(data_mhs, key=lambda x: x[1], reverse=True)
+print(f"Urut Nilai (Desc): {urut_nilai}")
