@@ -5,79 +5,59 @@
  Laboratorium Python & Dasar AI
  Universitas Muhammadiyah Makassar
 ==========================================================
-
- Instruksi:
- 1. Buat fungsi hitung_grade(nilai) -> grade (A/B/C/D/E)
- 2. Buat fungsi status_kelulusan(grade) -> "LULUS"/"TIDAK LULUS"
- 3. Buat list 10 mahasiswa (nama, nilai) sebagai list of tuple
- 4. Proses semua mahasiswa, tampilkan dalam format tabel
- 5. Hitung jumlah lulus, tidak lulus, dan persentasenya
- 6. Gunakan ternary operator minimal 1 kali
-
- Tabel Grade:
- | 90-100 | A | Sangat Baik    |
- | 80-89  | B | Baik           |
- | 70-79  | C | Cukup          |
- | 60-69  | D | Kurang         |
- | 0-59   | E | Sangat Kurang  |
-==========================================================
 """
 
-
+# Fungsi hitung_grade(nilai)
 def hitung_grade(nilai):
-    """Menentukan grade berdasarkan nilai angka (0-100).
+    if nilai >= 90:
+        return "A", "Sangat Baik"
+    elif nilai >= 80:
+        return "B", "Baik"
+    elif nilai >= 70:
+        return "C", "Cukup"
+    elif nilai >= 60:
+        return "D", "Kurang"
+    else:
+        return "E", "Sangat Kurang"
 
-    Args:
-        nilai (int): Nilai angka mahasiswa (0-100).
-
-    Returns:
-        tuple: (grade, keterangan) misal ("A", "Sangat Baik")
-    """
-    # TODO: Implementasikan percabangan if/elif/else
-    # 90-100 -> ("A", "Sangat Baik")
-    # 80-89  -> ("B", "Baik")
-    # 70-79  -> ("C", "Cukup")
-    # 60-69  -> ("D", "Kurang")
-    # 0-59   -> ("E", "Sangat Kurang")
-    ...
-
-
+# Fungsi status_kelulusan(grade)
 def status_kelulusan(grade):
-    """Menentukan status kelulusan berdasarkan grade.
+    # Menggunakan logika pengecekan grade yang lulus (A, B, C)
+    if grade in ["A", "B", "C"]:
+        return "LULUS"
+    else:
+        return "TIDAK LULUS"
 
-    Args:
-        grade (str): Grade mahasiswa (A/B/C/D/E).
-
-    Returns:
-        str: "LULUS" jika A/B/C, "TIDAK LULUS" jika D/E.
-    """
-    # TODO: Implementasikan (boleh gunakan ternary operator)
-    ...
-
-
-# ── Data Mahasiswa ────────────────────────────────────────────────────────────
-# TODO: Buat list of tuple berisi 10 mahasiswa (nama, nilai)
-data_mahasiswa = [
-    # ("Nama Mahasiswa", nilai),
-    # ...
+# List of tuple (Nama, Nilai)
+mahasiswa = [
+    ("Ahmad Fauzi", 85), ("Siti Rahma", 92), ("Budi Santoso", 55),
+    ("Dina Amalia", 78), ("Eko Saputra", 62), ("Fajri Ramadhan", 95),
+    ("Gita Lestari", 45), ("Hadi Wijaya", 73), ("Indra Kurnia", 88),
+    ("Joko Anwar", 68)
 ]
 
+# Variabel penghitung
+jml_lulus = 0
 
-# ── Proses & Tampilkan ───────────────────────────────────────────────────────
-# TODO: Gunakan perulangan untuk memproses semua mahasiswa
-# Contoh:
-# print("=" * 65)
-# print(f"{'No':>2} | {'Nama':<18} | {'Nilai':>5} | {'Grade':>5} | {'Keterangan':<14} | {'Status'}")
-# print("-" * 65)
-# for i, (nama, nilai) in enumerate(data_mahasiswa, 1):
-#     grade, keterangan = hitung_grade(nilai)
-#     status = status_kelulusan(grade)
-#     print(f"{i:>2} | {nama:<18} | {nilai:>5} | {grade:>5} | {keterangan:<14} | {status}")
+print("================== HASIL PENILAIAN AKADEMIK ==================")
+print(f"{'No':<2} | {'Nama':<17} | {'Nilai':<5} | {'Grade':<5} | {'Keterangan':<13} | {'Status'}")
+print("-" * 62)
 
+# Perulangan untuk memproses data
+for i, (nama, nilai) in enumerate(mahasiswa, 1):
+    grade, ket = hitung_grade(nilai)
+    status = status_kelulusan(grade)
+    
+# Contoh penggunaan Ternary Operator untuk menghitung jumlah lulus
+    jml_lulus += 1 if status == "LULUS" else 0
+    
+    print(f"{i:>2} | {nama:<17} | {nilai:>5} | {grade:^5} | {ket:<13} | {status}")
 
-# ── Statistik ────────────────────────────────────────────────────────────────
-# TODO: Hitung jumlah lulus, tidak lulus, dan persentase
-# jumlah_lulus = ...
-# jumlah_tidak_lulus = ...
-# persen_lulus = jumlah_lulus / len(data_mahasiswa) * 100
-# print(f"Lulus: {jumlah_lulus} ({persen_lulus:.1f}%) | Tidak Lulus: {jumlah_tidak_lulus} (...%)")
+# Hitung statistik
+total = len(mahasiswa)
+jml_tidak_lulus = total - jml_lulus
+persen_lulus = (jml_lulus / total) * 100
+persen_tidak_lulus = (jml_tidak_lulus / total) * 100
+
+print("=" * 62)
+print(f"Lulus: {jml_lulus} ({persen_lulus:.1f}%) | Tidak Lulus: {jml_tidak_lulus} ({persen_tidak_lulus:.1f}%)")
