@@ -1,54 +1,37 @@
-"""
-==========================================================
- TUGAS 1 - Biodata Mahasiswa
- Chapter 1: Dasar Python
- Laboratorium Python & Dasar AI
- Universitas Muhammadiyah Makassar
-==========================================================
 
- Instruksi:
- 1. Buat variabel yang menyimpan: nama lengkap, NIM, jurusan,
-    semester (int), IPK (float), dan status aktif (bool)
- 2. Tampilkan semua data menggunakan f-string dengan format rapi
- 3. Tampilkan tipe data dari setiap variabel menggunakan type()
- 4. Gunakan isinstance() untuk memeriksa apakah NIM bertipe str
-    dan semester bertipe int
+# TUGAS 1 - Biodata Mahasiswa (tugas_01.py)
+# Chapter 1: Dasar Python
+# Laboratorium Python & Dasar AI
+# Universitas Muhammadiyah Makassar
 
- Contoh Output:
- ===== BIODATA MAHASISWA =====
- Nama    : Ahmad Fauzi
- NIM     : 105841100123
- Jurusan : Informatika
- Semester: 4
- IPK     : 3.75
- Aktif   : True
- =============================
- Tipe 'nama'    : <class 'str'>
- Tipe 'semester': <class 'int'>
- ...
-==========================================================
-"""
+# ── Deklarasi Variabel ──────────────────────────────────
+nama_lengkap = "FAHRUL RAHMAN"      # Tipe: str
+nim          = "105841117522"    # Tipe: str
+jurusan      = "INFORMATIKA"     # Tipe: str
+semester     = 7                 # Tipe: int
+ipk          = 3.19              # Tipe: float (gunakan titik '.')
+status_aktif = True              # Tipe: bool
 
-# ── Deklarasi Variabel ────────────────────────────────────────────────────────
-# TODO: Deklarasikan variabel berikut dengan data Anda sendiri
-nama_lengkap = ...  # str: nama lengkap mahasiswa
-nim = ...  # str: Nomor Induk Mahasiswa
-jurusan = ...  # str: nama jurusan
-semester = ...  # int: semester saat ini
-ipk = ...  # float: Indeks Prestasi Kumulatif
-status_aktif = ...  # bool: apakah masih aktif kuliah
+# ── Tampilkan Biodata (f-string) ───────────────────────
+print("===== BIODATA MAHASISWA =====")
+print(f"Nama     : {nama_lengkap}")
+print(f"NIM      : {nim}")
+print(f"Jurusan  : {jurusan}")
+print(f"Semester : {semester}")
+print(f"IPK      : {ipk}")
+print(f"Aktif    : {status_aktif}")
+print("=============================")
 
+# ── Tampilkan Tipe Data (type) ─────────────────────────
+print(f"Tipe 'nama'     : {type(nama_lengkap)}")
+print(f"Tipe 'nim'      : {type(nim)}")
+print(f"Tipe 'jurusan'  : {type(jurusan)}")
+print(f"Tipe 'semester' : {type(semester)}")
+print(f"Tipe 'ipk'      : {type(ipk)}")
+print(f"Tipe 'aktif'    : {type(status_aktif)}")
 
-# ── Tampilkan Biodata ─────────────────────────────────────────────────────────
-# TODO: Tampilkan semua data menggunakan f-string
-# Contoh: print(f"Nama    : {nama_lengkap}")
-
-
-# ── Tampilkan Tipe Data ──────────────────────────────────────────────────────
-# TODO: Tampilkan tipe data setiap variabel menggunakan type()
-# Contoh: print(f"Tipe 'nama'    : {type(nama_lengkap)}")
-
-
-# ── Pemeriksaan isinstance() ─────────────────────────────────────────────────
-# TODO: Gunakan isinstance() untuk memeriksa tipe data
-# Contoh: print(f"NIM adalah str? {isinstance(nim, str)}")
+# ── Pemeriksaan (isinstance) ───────────────────────────
+print("-" * 35)
+print(f"Apakah NIM bertipe str?      : {isinstance(nim, str)}")
+print(f"Apakah Semester bertipe int? : {isinstance(semester, int)}")
+print("-" * 35)
