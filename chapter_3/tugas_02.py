@@ -17,108 +17,61 @@
 """
 
 
+# Tugas 2 -- Pola & Deret (tugas_02.py)
+
+# Fungsi Pola Segitiga Bintang
 def pola_segitiga(n):
-    """Mencetak pola segitiga bintang dengan tinggi n.
+    print(f"\n--- Segitiga (n={n}) ---")
+    for i in range(1, n + 1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
 
-    Args:
-        n (int): Tinggi segitiga.
-
-    Contoh (n=4):
-       *
-      **
-     ***
-    ****
-    """
-    # TODO: Implementasikan
-    ...
-
-
+# Fungsi Pola Segitiga Terbalik
 def pola_segitiga_terbalik(n):
-    """Mencetak pola segitiga terbalik dengan tinggi n.
+    print(f"\n--- Segitiga Terbalik (n={n}) ---")
+    for i in range(n, 0, -1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
 
-    Args:
-        n (int): Tinggi segitiga.
-
-    Contoh (n=4):
-    ****
-     ***
-      **
-       *
-    """
-    # TODO: Implementasikan
-    ...
-
-
+# Fungsi Pola Diamond
 def pola_diamond(n):
-    """Mencetak pola diamond/berlian.
+    print(f"\n--- Diamond (n={n}) ---")
+    # Bagian Atas
+    for i in range(1, n + 1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
+    # Bagian Bawah
+    for i in range(n - 1, 0, -1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
 
-    Args:
-        n (int): Setengah tinggi diamond (jumlah baris bagian atas).
-
-    Contoh (n=5):
-        *
-       ***
-      *****
-     *******
-    *********
-     *******
-      *****
-       ***
-        *
-    """
-    # TODO: Implementasikan
-    # Hint: bagian atas menggunakan range(1, n+1)
-    #        bagian bawah menggunakan range(n-1, 0, -1)
-    ...
-
-
+# Fungsi Deret Fibonacci
 def deret_fibonacci(n):
-    """Mengembalikan list berisi n bilangan Fibonacci pertama.
+    deret = [0, 1]
+    while len(deret) < n:
+        deret.append(deret[-1] + deret[-2])
+    return deret[:n]
 
-    Args:
-        n (int): Jumlah bilangan Fibonacci yang diinginkan.
-
-    Returns:
-        list: Deret Fibonacci. Contoh (n=8): [0, 1, 1, 2, 3, 5, 8, 13]
-    """
-    # TODO: Implementasikan
-    ...
-
-
+# Fungsi Cek Bilangan Prima
 def is_prima(n):
-    """Memeriksa apakah n adalah bilangan prima.
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
 
-    Args:
-        n (int): Bilangan yang diperiksa.
+# --- Eksekusi Program ---
 
-    Returns:
-        bool: True jika prima, False jika bukan.
-    """
-    # TODO: Implementasikan
-    # Hint: prima > 1 dan tidak habis dibagi bilangan 2..sqrt(n)
-    ...
+# Menampilkan Pola
+pola_segitiga(5)
+pola_segitiga_terbalik(5)
+pola_diamond(5)
 
+# Menampilkan Fibonacci
+n_fibo = 10
+print(f"\nDeret Fibonacci ({n_fibo} angka):")
+print(deret_fibonacci(n_fibo))
 
-# ── Demonstrasi ──────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    # TODO: Tampilkan pola segitiga (n=5)
-    # print("=== Pola Segitiga (n=5) ===")
-    # pola_segitiga(5)
+# Menampilkan Bilangan Prima 1-100 menggunakan filter()
+list_angka = list(range(1, 101))
+bil_prima = list(filter(is_prima, list_angka))
 
-    # TODO: Tampilkan pola segitiga terbalik (n=5)
-    # print("\n=== Pola Segitiga Terbalik (n=5) ===")
-    # pola_segitiga_terbalik(5)
-
-    # TODO: Tampilkan pola diamond (n=5)
-    # print("\n=== Pola Diamond (n=5) ===")
-    # pola_diamond(5)
-
-    # TODO: Tampilkan 15 bilangan Fibonacci
-    # print(f"\nFibonacci (15): {deret_fibonacci(15)}")
-
-    # TODO: Tampilkan bilangan prima 1-100 menggunakan filter()
-    # bilangan_prima = list(filter(is_prima, range(1, 101)))
-    # print(f"\nBilangan prima (1-100): {bilangan_prima}")
-    # print(f"Jumlah: {len(bilangan_prima)}")
-
-    pass
+print("\nBilangan Prima antara 1 - 100:")
+print(bil_prima)
