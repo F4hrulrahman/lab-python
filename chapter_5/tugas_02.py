@@ -30,203 +30,70 @@
 import pandas as pd
 import numpy as np
 
+# Menentukan seed agar hasil random konsisten
+np.random.seed(42)
 
-def buat_dataframe_mahasiswa(seed=42):
-    """Membuat DataFrame berisi data 20 mahasiswa.
+# 1. Buat DataFrame berisi data 20 mahasiswa
+n = 20
+jurusan_list = ['Informatika', 'Sistem Informasi', 'Teknik Elektro']
 
-    Args:
-        seed (int): Random seed untuk reprodusibilitas.
+data = {
+    'Nama': [f'Mahasiswa_{i}' for i in range(1, n+1)],
+    'NIM': [f'10584110{i:02d}' for i in range(1, n+1)],
+    'Jurusan': np.random.choice(jurusan_list, n),
+    'Semester': np.random.randint(2, 9, n),
+    'IPK': np.round(np.random.uniform(2.0, 4.0, n), 2),
+    'Jenis_Kelamin': np.random.choice(['L', 'P'], n)
+}
 
-    Returns:
-        pd.DataFrame: DataFrame dengan kolom Nama, NIM, Jurusan,
-                       Semester, IPK, Jenis_Kelamin.
-    """
-    # TODO: Set seed dan buat data
-    # np.random.seed(seed)
-    #
-    # nama_list = [
-    #     "Ahmad", "Budi", "Citra", "Dewi", "Eko",
-    #     "Fitri", "Gilang", "Hana", "Irfan", "Jasmine",
-    #     "Kamal", "Lina", "Mira", "Naufal", "Olivia",
-    #     "Putra", "Qory", "Rizky", "Sari", "Taufik",
-    # ]
-    #
-    # jurusan_list = ["Informatika", "Sistem Informasi", "Teknik Elektro"]
-    #
-    # data = {
-    #     "Nama": nama_list,
-    #     "NIM": [f"10520{i:04d}" for i in range(1, 21)],
-    #     "Jurusan": np.random.choice(jurusan_list, 20),
-    #     "Semester": np.random.randint(2, 9, 20),
-    #     "IPK": np.round(np.random.uniform(2.0, 4.0, 20), 2),
-    #     "Jenis_Kelamin": np.random.choice(["L", "P"], 20),
-    # }
-    #
-    # return pd.DataFrame(data)
-    ...
+df = pd.DataFrame(data)
 
+# Sisipkan nama Safriamsah ke dalam data agar sesuai identitas kamu
+df.loc[0, 'Nama'] = 'FAHRUL RAHMAN'
+df.loc[0, 'Jurusan'] = 'Informatika'
+df.loc[0, 'IPK'] = 3.19 # Sesuai dengan IPK aslimu
 
-def info_dasar(df):
-    """Menampilkan informasi dasar DataFrame.
+print("===== DATA MAHASISWA =====")
+print(df.head())
 
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-    """
-    # TODO: Tampilkan shape, dtypes, dan describe()
-    # print(f"Shape: {df.shape}")
-    # print(f"\nTipe Data:\n{df.dtypes}")
-    # print(f"\nStatistik Deskriptif:\n{df.describe()}")
-    ...
+# 2. Tampilkan informasi dasar
+print("\n--- Informasi Dasar ---")
+print(f"Shape: {df.shape}")
+print("\nData Types:")
+print(df.dtypes)
+print("\nStatistik Deskriptif:")
+print(df.describe())
 
+# 3. Filtering
+print("\n--- Filtering: IPK >= 3.5 ---")
+print(df[df['IPK'] >= 3.5])
 
-def filter_ipk_tinggi(df, batas_ipk=3.5):
-    """Filter mahasiswa dengan IPK >= batas_ipk.
+print("\n--- Filtering: Informatika & Semester >= 5 ---")
+filt = (df['Jurusan'] == 'Informatika') & (df['Semester'] >= 5)
+print(df[filt])
 
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-        batas_ipk (float): Batas minimum IPK.
+# 4. Sorting: 5 Teratas berdasarkan IPK
+print("\n--- Top 5 IPK Tertinggi ---")
+print(df.sort_values(by='IPK', ascending=False).head(5))
 
-    Returns:
-        pd.DataFrame: DataFrame hasil filter.
-    """
-    # TODO: Implementasikan filter
-    # return df[df["IPK"] >= batas_ipk]
-    ...
+# 5. Groupby: Statistik IPK per Jurusan
+print("\n--- Statistik IPK per Jurusan ---")
+stat_jurusan = df.groupby('Jurusan')['IPK'].agg(['mean', 'min', 'max', 'count'])
+print(stat_jurusan)
 
+# 6. Groupby: Jenis Kelamin per Jurusan
+print("\n--- Jumlah Mahasiswa per Jenis Kelamin per Jurusan ---")
+print(df.groupby(['Jurusan', 'Jenis_Kelamin']).size())
 
-def filter_jurusan_semester(df, jurusan="Informatika", min_semester=5):
-    """Filter mahasiswa berdasarkan jurusan DAN minimum semester.
+# 7. Tambahkan kolom baru Predikat
+def tentukan_predikat(ipk):
+    if ipk >= 3.5: return "Cum Laude"
+    elif ipk >= 3.0: return "Sangat Memuaskan"
+    elif ipk >= 2.5: return "Memuaskan"
+    else: return "Cukup"
 
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-        jurusan (str): Nama jurusan.
-        min_semester (int): Semester minimum.
+df['Predikat'] = df['IPK'].apply(tentukan_predikat)
 
-    Returns:
-        pd.DataFrame: DataFrame hasil filter.
-    """
-    # TODO: Implementasikan filter gabungan (AND)
-    # return df[(df["Jurusan"] == jurusan) & (df["Semester"] >= min_semester)]
-    ...
-
-
-def top_mahasiswa(df, n=5):
-    """Mengurutkan berdasarkan IPK dan mengambil top n mahasiswa.
-
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-        n (int): Jumlah mahasiswa teratas.
-
-    Returns:
-        pd.DataFrame: Top n mahasiswa berdasarkan IPK.
-    """
-    # TODO: Sort by IPK descending, ambil n pertama
-    # return df.sort_values("IPK", ascending=False).head(n)
-    ...
-
-
-def statistik_per_jurusan(df):
-    """Menghitung statistik IPK per jurusan menggunakan groupby.
-
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-
-    Returns:
-        pd.DataFrame: Statistik IPK (mean, min, max, count) per jurusan.
-    """
-    # TODO: Implementasikan groupby + agg
-    # return df.groupby("Jurusan")["IPK"].agg(["mean", "min", "max", "count"])
-    ...
-
-
-def jumlah_per_gender_jurusan(df):
-    """Menghitung jumlah mahasiswa per jenis_kelamin per jurusan.
-
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-
-    Returns:
-        pd.DataFrame: Tabel pivot jumlah per gender per jurusan.
-    """
-    # TODO: Implementasikan groupby dua kolom atau crosstab
-    # return pd.crosstab(df["Jurusan"], df["Jenis_Kelamin"])
-    ...
-
-
-def tambah_predikat(df):
-    """Menambah kolom Predikat berdasarkan IPK.
-
-    Aturan:
-        IPK >= 3.5 -> "Cum Laude"
-        IPK >= 3.0 -> "Sangat Memuaskan"
-        IPK >= 2.5 -> "Memuaskan"
-        IPK <  2.5 -> "Cukup"
-
-    Args:
-        df (pd.DataFrame): DataFrame mahasiswa.
-
-    Returns:
-        pd.DataFrame: DataFrame dengan kolom Predikat baru.
-    """
-    # TODO: Gunakan np.select atau apply + fungsi
-    # conditions = [
-    #     df["IPK"] >= 3.5,
-    #     df["IPK"] >= 3.0,
-    #     df["IPK"] >= 2.5,
-    # ]
-    # choices = ["Cum Laude", "Sangat Memuaskan", "Memuaskan"]
-    # df["Predikat"] = np.select(conditions, choices, default="Cukup")
-    # return df
-    ...
-
-
-def distribusi_predikat(df):
-    """Menampilkan distribusi predikat menggunakan value_counts().
-
-    Args:
-        df (pd.DataFrame): DataFrame yang sudah memiliki kolom Predikat.
-
-    Returns:
-        pd.Series: Jumlah per predikat.
-    """
-    # TODO: Implementasikan value_counts()
-    # return df["Predikat"].value_counts()
-    ...
-
-
-# ── Main Program ─────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    # TODO: Jalankan semua fungsi dan tampilkan hasilnya
-    #
-    # df = buat_dataframe_mahasiswa()
-    #
-    # print("=" * 60)
-    # print(" ANALISIS DATA MAHASISWA (Pandas)")
-    # print("=" * 60)
-    #
-    # print("\n── Info Dasar ──")
-    # info_dasar(df)
-    #
-    # print("\n── Mahasiswa IPK >= 3.5 ──")
-    # print(filter_ipk_tinggi(df))
-    #
-    # print("\n── Informatika & Semester >= 5 ──")
-    # print(filter_jurusan_semester(df))
-    #
-    # print("\n── Top 5 Mahasiswa ──")
-    # print(top_mahasiswa(df))
-    #
-    # print("\n── Statistik IPK per Jurusan ──")
-    # print(statistik_per_jurusan(df))
-    #
-    # print("\n── Jumlah per Gender per Jurusan ──")
-    # print(jumlah_per_gender_jurusan(df))
-    #
-    # df = tambah_predikat(df)
-    # print("\n── DataFrame dengan Predikat ──")
-    # print(df[["Nama", "IPK", "Predikat"]])
-    #
-    # print("\n── Distribusi Predikat ──")
-    # print(distribusi_predikat(df))
-
-    pass
+# 8. Tampilkan distribusi predikat
+print("\n--- Distribusi Predikat ---")
+print(df['Predikat'].value_counts())
